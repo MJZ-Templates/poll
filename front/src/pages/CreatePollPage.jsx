@@ -9,8 +9,8 @@ export default function CreatePollPage() {
 
   const handleCreatePoll = async (title, options) => {
     try {
-      const data = await createPoll({title, options});
-      navigate(`/polls/${data.id}`);
+      const {id} = await createPoll({title, options});
+      navigate(`/polls/${id}`);
     } catch (error) {
       console.error('Error creating poll:', error);
     }

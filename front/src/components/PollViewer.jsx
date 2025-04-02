@@ -1,69 +1,51 @@
 import {
   Button,
-  Container,
   Paper,
   Stack,
   Typography
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-export default function PollViewer({ pollId }) {
-  const [pollData, setPollData] = useState({
-    title: 'Your Favorite Programming Language?',
-    options: [
-      { name: 'JavaScript', votes: 5 },
-      { name: 'Python', votes: 8 },
-      { name: 'Java', votes: 3 },
-    ]
-  });
+export default function PollViewer({ pollData }) {
+  const [poll, setPoll] = useState(pollData);
 
-  useEffect(() => {
-    console.log(`Subscribed to poll: ${pollId}`);
-  }, [pollId]);
-
-  const handleVote = (optionName) => {
-    setPollData(prev => ({
-      ...prev,
-      options: prev.options.map(option =>
-        option.name === optionName
-          ? { ...option, votes: option.votes + 1 }
-          : option
-      )
-    }));
+  const handleVote = (optionId) => {
+    const updatedOptions = poll.options.map(opt =>
+      opt.id === optionId ? { ...opt, votes: opt.votes + 1 } : opt
+    );
+    setPoll({ ...poll, options: updatedOptions });
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          {pollData.title}
-        </Typography>
+    <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
+      <Typography variant="h6" gutterBottom>
+        {poll.title}
+      </Typography>
 
-        <ResponsiveContainer width="100%" height={300}>
-        <BarChart width={500} height={300} data={pollData.options}>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={poll.options}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Bar dataKey="votes" fill="#1976d2" />
         </BarChart>
-        </ResponsiveContainer>
+      </ResponsiveContainer>
 
-        <Stack spacing={2} sx={{ mt: 3 }}>
-          {pollData.options.map((option, index) => (
-            <Button
-              key={index}
-              variant="contained"
-              color="primary"
-              onClick={() => handleVote(option.name)}
-              fullWidth
-            >
-              Vote for {option.name}
-            </Button>
-          ))}
-        </Stack>
-      </Paper>
-    </Container>
+      <Stack spacing={2} sx={{ mt: 3 }}>
+        {poll.options.map((option) => (
+          <Button
+            key={option.id}
+            variant="contained"
+            color="primary"
+            onClick={() => handleVote(option.id)}
+            fullWidth
+          >
+            Vote for {option.name}
+          </Button>
+        ))}
+      </Stack>
+    </Paper>
   );
 }
