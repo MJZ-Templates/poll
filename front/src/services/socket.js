@@ -5,22 +5,18 @@ import SockJS from 'sockjs-client';
 let stompClient = null;
 
 export function connectSocket(pollId, onMessageReceived) {
-  console.log("여기까지 오긴 했음");
-  stompClient = new Client({
-    webSocketFactory: () => new SockJS('/ws'),
-    reconnectDelay: 5000,
-    debug: (str) => console.log('[STOMP DEBUG]', str),
-    onConnect: () => {
-      console.log('[WebSocket] ✅ Connected');
-    },
-    onStompError: (frame) => {
-      console.error('[WebSocket] 💥 STOMP ERROR:', frame);
-    },
-    onWebSocketError: (err) => {
-      console.error('[WebSocket] ❌ WebSocket Error:', err);
-    },
-  });
-  
+    stompClient = new Client({
+      webSocketFactory: () => new SockJS(import.meta.env.VITE_SOCKET_URL),
+      reconnectDelay: 5000,
+      onConnect: () => {
+        console.log("[WebSocket] Connected");
+        stompClient.subscribe(`/topic/polls/${pollId}`, (message) => {
+          console.log("[WebSocket] Message received:", message.body);
+          const updatedPoll = JSON.parse(message.body);
+          onMessageReceived(updatedPoll);
+        });
+      },
+    });
 
   stompClient.activate();
 }
