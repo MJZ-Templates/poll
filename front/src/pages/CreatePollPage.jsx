@@ -2,15 +2,19 @@ import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PollForm from '../components/PollForm';
+import { createPoll } from '../services/api';
 
 export default function CreatePollPage() {
   const navigate = useNavigate();
 
-  // Dummy function to simulate poll creation
-  const handleCreatePoll = (title, options) => {
-    const dummyPollId = 'abc123';
-    console.log('Created Poll:', { title, options });
-    navigate(`/polls/${dummyPollId}`);
+  const handleCreatePoll = async (title, options) => {
+    try {
+      const data = await createPoll({title, options});
+      navigate(`/polls/${data.id}`);
+    } catch (error) {
+      console.error('Error creating poll:', error);
+    }
+
   };
 
   return (

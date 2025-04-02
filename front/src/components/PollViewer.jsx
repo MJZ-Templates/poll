@@ -1,9 +1,9 @@
 import {
-    Button,
-    Container,
-    Paper,
-    Stack,
-    Typography
+  Button,
+  Container,
+  Paper,
+  Stack,
+  Typography
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
