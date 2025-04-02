@@ -27,4 +27,8 @@ public class Option {
         option.name = name;
         return option;
     }
+
+    public void vote() {
+        this.votes++;
+    }
 }
