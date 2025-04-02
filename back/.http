@@ -1,0 +1,12 @@
+###
+POST http://localhost:8080/api/polls
+Content-Type: application/json
+
+{
+  "title": "What's your favorite frontend framework?",
+  "options": ["React", "Vue", "Svelte"]
+}
+
+###
+GET http://localhost:8080/api/polls/8462da97-cb79-48b1-8893-c6fb9bca4d21
+Content-Type: application/json
