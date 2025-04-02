@@ -40,7 +40,7 @@ export default function PollDetailPage() {
           gutterBottom
           sx={{ fontWeight: 600, textAlign: 'center', color: 'text.primary' }}
         >
-          Poll ID: {pollId}
+          Poll : { poll ? poll.title : 'Loading...' }
         </Typography>
       </Box>
 

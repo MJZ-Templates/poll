@@ -4,17 +4,35 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import React, { useState } from 'react';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import React, { useEffect, useState } from 'react';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis, YAxis
+} from 'recharts';
+import { connectSocket, disconnectSocket, sendVote } from '../services/socket';
 
 export default function PollViewer({ pollData }) {
   const [poll, setPoll] = useState(pollData);
 
+  useEffect(() => {
+    if (!poll?.id) return; // poll이 null/undefined일 경우 방어
+  
+    console.log('[PollViewer] Connecting socket for poll:', poll.id);
+    connectSocket(poll.id, setPoll);
+  
+    return () => {
+      console.log('[PollViewer] Disconnecting socket');
+      disconnectSocket();
+    };
+  }, [poll?.id]);
+  
+
   const handleVote = (optionId) => {
-    const updatedOptions = poll.options.map(opt =>
-      opt.id === optionId ? { ...opt, votes: opt.votes + 1 } : opt
-    );
-    setPoll({ ...poll, options: updatedOptions });
+    sendVote(poll.id, optionId);
   };
 
   return (
