@@ -1,38 +1,38 @@
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Stack,
-    TextField,
-    Typography
-} from '@mui/material';
-import React, { useState } from 'react';
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
+import React, { useState } from 'react'
 
 export default function PollForm({ onSubmit }) {
-  const [title, setTitle] = useState('');
-  const [options, setOptions] = useState(['', '']);
+  const [title, setTitle] = useState('')
+  const [options, setOptions] = useState(['', ''])
 
   const handleOptionChange = (index, value) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
-  };
+    const newOptions = [...options]
+    newOptions[index] = value
+    setOptions(newOptions)
+  }
 
   const addOption = () => {
-    setOptions([...options, '']);
-  };
+    setOptions([...options, ''])
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const filteredOptions = options.filter(option => option.trim() !== '');
+    e.preventDefault()
+    const filteredOptions = options.filter((option) => option.trim() !== '')
     if (title && filteredOptions.length >= 2) {
-      onSubmit(title, filteredOptions);
+      onSubmit(title, filteredOptions)
     } else {
-      alert('Please enter a title and at least two options.');
+      alert('Please enter a title and at least two options.')
     }
-  };
+  }
 
   return (
     <Container maxWidth="sm">
@@ -47,7 +47,7 @@ export default function PollForm({ onSubmit }) {
               label="Poll Title"
               variant="outlined"
               value={title}
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               fullWidth
               sx={{ mb: 3 }}
             />
@@ -62,7 +62,7 @@ export default function PollForm({ onSubmit }) {
                   label={`Option ${index + 1}`}
                   variant="outlined"
                   value={option}
-                  onChange={e => handleOptionChange(index, e.target.value)}
+                  onChange={(e) => handleOptionChange(index, e.target.value)}
                   fullWidth
                 />
               ))}
@@ -81,5 +81,5 @@ export default function PollForm({ onSubmit }) {
         </CardContent>
       </Card>
     </Container>
-  );
+  )
 }
