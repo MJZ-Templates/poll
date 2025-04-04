@@ -94,6 +94,26 @@ back
     - This feature is only available for membership users.
     - You can SSH to the Arkain container from the outside via the [Menu]->[SSH Configuration] in menu bar.
 
+4. **CORS config**
+    - cors config in `back/src/.../config/CorsConfig.java` file
+    - add your front domain in allowedOrigins
+    - for example:
+   ```java
+   @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173", "https://arkain.io") // Add your custom domain except port
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
+   ```
+
 ## 💬 Support & Documentation
 Visit [https://arkain.io](https://arkain.io/) to support and learn more about using arkain.
 
