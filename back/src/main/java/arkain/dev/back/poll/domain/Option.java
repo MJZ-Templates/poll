@@ -28,7 +28,7 @@ public class Option {
         return option;
     }
 
-    public void vote() {
+    public synchronized void vote() {
         this.votes++;
     }
 }

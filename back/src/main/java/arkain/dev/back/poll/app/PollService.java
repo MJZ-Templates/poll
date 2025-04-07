@@ -20,8 +20,8 @@ public class PollService {
 
     private final PollRepository pollRepository;
 
-    private Poll findPoll(String id) {
-        return pollRepository.findById(id)
+    public Poll findPoll(String id) {
+        return pollRepository.findByIdWithOptions(id)
                 .orElseThrow(() -> new IllegalArgumentException("Poll not found"));
     }
 
